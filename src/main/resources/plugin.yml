@@ -1,0 +1,17 @@
+name: Devourer
+main: com.fi3w0.devourer.DevourerPlugin
+version: 1.0.0
+api-version: 1.21
+author: fi3w0
+commands:
+  devourer:
+    description: Devourer admin commands
+    usage: /devourer bind | curse <player> | remove <player> | toggle
+    permission: devourer.manage
+permissions:
+  devourer.manage:
+    description: Manage the devourer plugin (curse/remove/toggle)
+    default: op
+  devourer.bind:
+    description: Bind the item in hand as a Devourer weapon
+    default: op

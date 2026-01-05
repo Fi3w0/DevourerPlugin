@@ -1,0 +1,26 @@
+feature-enabled: true
+interval-seconds: 300
+chance-to-trigger-per-interval: 0.5
+
+devourer-item-name: "Devourer of Gods"
+
+messages:
+  cursed: "Has perdido tus poderes divinos"
+  uncursed: "La maldición ha sido levantada"
+  broadcast-devour: "%killer% ha devorado la esencia divina de %victim%!"
+  killer-title: "The Devourer of Gods"
+  killer-sub: "You consume forbidden power"
+  victim-title: "Mortality"
+  victim-sub: "Your godhood is gone"
+  nausea: "You feel the world spin..."
+  slowness: "Your limbs feel heavy..."
+  weakness: "You feel your strength fading..."
+  rare: "The gods' remnants lash out at you..."
+
+effects:
+  nausea-duration-seconds: 3
+  slowness-duration-seconds: 5
+  weakness-duration-seconds: 6
+  poison-duration-seconds: 4
+
+cursed-players: []
