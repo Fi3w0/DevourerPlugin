@@ -1,13 +1,14 @@
 name: Devourer
 main: com.fi3w0.devourer.DevourerPlugin
-version: 1.0.3
+version: 1.0.5
 api-version: 1.21
 author: fi3w0
 commands:
   devourer:
     description: Devourer admin commands
-    usage: /devourer <bind|curse|remove|toggle|help|bossbar>
+    usage: /devourer <bind|giveheart|curse|remove|toggle|buffs|souls|bossbar|help>
     permission: devourer.manage
+    aliases: [devour]
 permissions:
   devourer.manage:
     description: Manage the devourer plugin (curse/remove/toggle)
@@ -15,5 +16,6 @@ permissions:
   devourer.bind:
     description: Bind the item in hand as a Devourer weapon
     default: op
-
-
+  devourer.craft:
+    description: Allows crafting Heart of the Forsaken
+    default: true

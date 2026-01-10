@@ -1,109 +1,92 @@
-# DevourerPlugin configuration (auto-update aware)
-# The plugin will compare the value below (config-version) with the plugin's version
-# and overwrite the on-disk config.yml with this bundled default when they differ.
-config-version: "1.0.3"
+# DevourerPlugin configuration v1.0.5
 
 # -----------------------
 # Global feature flags
 # -----------------------
-# Enable / disable the whole system (true = active, false = disabled)
 feature-enabled: true
+buffs-enabled: true
 
 # How often periodic curse effects are attempted (seconds).
-# Lower for faster testing (e.g. 60), higher for rarer events.
-interval-seconds: 300
+interval-seconds: 800
 
 # Chance [0.0 - 1.0] for each cursed player to receive a random effect every interval.
-# 0.5 means ~50% chance per interval.
 chance-to-trigger-per-interval: 0.5
 
 # -----------------------
 # Devourer scaling & balance
 # -----------------------
 devourer:
-  # How much max health each soul adds to the devourer (floating).
-  # Example: 2.0 → each soul adds +2 HP to the devourer.
   health-per-soul: 2.0
-
-  # Maximum extra health allowed from souls (prevents infinite stacking).
-  # Example: 40.0 → devourer can gain up to +40 HP (base health typically 20).
   max-extra-health: 40.0
-
-  # How many souls needed to raise the devourer's Strength by 1 level.
-  souls-per-strength: 3
-
-  # How many souls needed to raise the devourer's Speed by 1 level.
-  souls-per-speed: 4
-
-  # How many souls needed to raise the devourer's Haste by 1 level.
-  souls-per-haste: 5
-
-  # Upper caps for potion effect levels applied to the devourer.
-  # These caps prevent ridiculous amplifiers in PvP.
+  souls-per-strength: 1
+  souls-per-speed: 1
+  souls-per-haste: 2
   max-strength-level: 5
   max-speed-level: 3
   max-haste-level: 2
-
-  # When a devourer dies, victims recover their souls and receive a short buff.
-  # This sets the duration of the recovery buff (in seconds).
   recovery-duration-seconds: 180
 
 # -----------------------
 # Boss bar settings
 # -----------------------
 bossbar:
-  # Toggle bossbar usage (true = show bars for devourers)
   enabled: true
-
-  # Title template for bossbar. %name% is replaced with the devourer player's name.
-  # Use & color codes (they will be translated by the plugin).
-  title: "&5Devourer - %name%"
-
-  # If true everyone sees the bossbar. If false only OPs/selected viewers will see it.
+  title: "&5Devourer - %name% &7[&d%souls% Souls&7]"
+  color: "PURPLE"
+  style: "SOLID"
   visible-to-all: true
 
 # -----------------------
 # Visual aura for cursed players
 # -----------------------
 aura-enabled: true
-# Particle name (Paper 1.21 particle enum string). Example: SOUL, END_ROD, FLAME, NOTE, etc.
 aura-particle: SOUL
-# Radius used for spawnParticle offsets (visual spread)
-aura-radius: 1.2
-# Number of particles each spawn call will attempt (higher = denser effect)
-aura-count: 12
-# How often (in ticks) the aura spawns; 20 ticks = 1 second.
-# Lower → more frequent spawn, higher load.
-aura-interval-ticks: 10
+aura-radius: 0.6
+aura-count: 8
+aura-interval-ticks: 40
 
 # -----------------------
-# In-game item / name
+# In-game item name
 # -----------------------
-# The display name used when marking an item as a 'devourer' weapon (informational).
 devourer-item-name: "Devourer of Gods"
 
 # -----------------------
-# Localized messages
+# Heart of the Forsaken (Curse Removal Item)
+# Crafting: 4 Golden Apples + Nether Star + Netherite Ingot + Pitcher Plant + Skeleton Skull + Totem
+# If crafting fails, use: /devourer giveheart <player>
 # -----------------------
-# Customize messages shown to players. You can use color codes (&x) — plugin translates them.
+heart-of-forsaken:
+  enabled: true
+  name: "&dHeart of the Forsaken"
+  lore:
+    - "&7A mystical artifact that can"
+    - "&7recover god like powers."
+    - ""
+    - "&eRight-click to use"
+  use-message: "&aThe Heart pulses with energy and breaks your curse!"
+  not-cursed-message: "&cYou are not cursed!"
+
+# -----------------------
+# Messages (use & for colors)
+# -----------------------
 messages:
-  cursed: "You have been cursed by the Devourer!"
-  uncursed: "The curse has been lifted."
-  broadcast-devour: "%killer% has devoured the divine essence of %victim%!"
-  killer-title: "The Devourer"
-  killer-sub: "You consume forbidden power"
-  victim-title: "Mortality"
-  victim-sub: "Your godhood is gone"
-  nausea: "You feel the world spin..."
-  slowness: "Your limbs feel heavy..."
-  weakness: "You feel your strength fading..."
-  rare: "The gods' remnants lash out at you..."
-  recover: "You feel the stolen power return, granting you brief vigor."
+  cursed: "&cYou have been cursed by the Devourer!"
+  uncursed: "&aThe curse has been lifted."
+  broadcast-devour: "&5%killer% &dhas devoured the divine essence of &5%victim%&d!"
+  killer-title: "&5The Devourer"
+  killer-sub: "&dYou consume forbidden power"
+  victim-title: "&cMortality"
+  victim-sub: "&7Your godhood is gone"
+  nausea: "&7You feel the world spin..."
+  slowness: "&7Your limbs feel heavy..."
+  weakness: "&7You feel your strength fading..."
+  rare: "&5The gods' remnants lash out at you..."
+  recover: "&aYou feel the stolen power return, granting you brief vigor."
+  devourer-death: "&5The Devourer %name% has fallen! &aAll stolen souls return to their owners!"
 
 # -----------------------
 # Periodic curse effects (durations in seconds)
 # -----------------------
-# These are used when the plugin applies random debuffs to cursed players.
 effects:
   nausea-duration-seconds: 3
   slowness-duration-seconds: 5
@@ -111,12 +94,8 @@ effects:
   poison-duration-seconds: 4
 
 # -----------------------
-# Runtime persistence (do not edit unless you know what you're doing)
+# Runtime persistence (automatically managed)
 # -----------------------
-# These keys are used by the plugin to persist runtime state (cursed players, soul ownership).
-# The auto-update routine will backup the old config and overwrite the file — these entries
-# will be preserved/updated by the plugin at runtime when it saves.
-cursed-players: []    # list of UUID strings of currently cursed players
-soul-owners: {}       # map victimUUID -> devourerUUID
-soul-counts: {}       # map devourerUUID -> integer soul count
-
+cursed-players: []
+soul-owners: {}
+soul-counts: {}
